@@ -1,3 +1,6 @@
+import { z } from "zod";
+
+
 export type ProductType = {
     id: string | number;
     name: string;
@@ -17,3 +20,14 @@ export type CartItemType = ProductType &  {
 
 export type ProductsType = ProductType[];
 export type CartItemsType = CartItemType[];
+
+
+export const ShippingFormSchema = z.object({
+    name:z.string().min(1, 'Name is required'),
+    email:z.email().min(1, 'Email is required'),
+    phone:z.string().min(10, 'Phone number must be at least 10 digits').regex(/^\d+$/, "Phone number must contain only numbers"),
+    address:z.string().min(1, 'Address is required'),
+    city:z.string().min(1, 'City is required')
+})
+
+export type ShippingFormInputs = z.infer<typeof ShippingFormSchema>; //shippingFormInputs is the type of the inputs of the shipping form
