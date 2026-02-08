@@ -30,4 +30,12 @@ export const ShippingFormSchema = z.object({
     city:z.string().min(1, 'City is required')
 })
 
+export const PaymentFormSchema = z.object({
+    cardHolder:z.string().min(1, 'card holder is required'),
+    cardNumber:z.string().min(16, 'card number is required').max(16, 'card number must be 16 digits'),
+    expiryDate:z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, 'Invalid expiry date'),
+    cvv:z.string().min(3, 'cvv is required').max(3, 'cvv must be 3 digits'),
+})
+
 export type ShippingFormInputs = z.infer<typeof ShippingFormSchema>; //shippingForm
+export type PaymentFormInputs = z.infer<typeof PaymentFormSchema>; //paymentForm
