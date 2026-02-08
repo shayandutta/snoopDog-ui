@@ -30,4 +30,4 @@ export const ShippingFormSchema = z.object({
     city:z.string().min(1, 'City is required')
 })
 
-export type ShippingFormInputs = z.infer<typeof ShippingFormSchema>; //shippingFormInputs is the type of the inputs of the shipping form
+export type ShippingFormInputs = z.infer<typeof ShippingFormSchema>; //shippingForm
