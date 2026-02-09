@@ -6,6 +6,8 @@ import { ProductType } from "@/types";
 import Link from "next/link";
 import { ShoppingCartIcon } from "lucide-react";
 import { useState } from "react";
+import cartStore from "@/stores/cartStore";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product }: { product: ProductType }) => {
   //props with the type of the product -> basically saying that we are going to get product from the parent component as a prop and the type of the product is ProductType. So types need to be mentioned here and also in the parent component.
@@ -14,6 +16,18 @@ const ProductCard = ({ product }: { product: ProductType }) => {
     size: product.sizes[0],
     color: product.colors[0],
   });
+
+  const {addToCart} = cartStore();
+
+  const handleAddToCart = () => { //handleAddToCart -> function that adds the product to the cart
+    addToCart({
+      ...product,
+      quantity: 1,
+      selectedSize: productTypes.size, //productTypes.size -> the size that the user selected
+      selectedColor: productTypes.color, //productTypes.color -> the color that the user selected
+    });
+    toast.success("Product added to cart");
+  };
 
   const handleProductTypeChange = ({
     type,
@@ -91,7 +105,7 @@ const ProductCard = ({ product }: { product: ProductType }) => {
         {/* PRICE & ADD TO CART */}
         <div className="flex items-center justify-between">
           <p className="font-medium">${product.price.toFixed(2)}</p>
-          <button className="ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2">
+          <button onClick={handleAddToCart} className="ring-1 ring-gray-200 shadow-lg rounded-md px-2 py-1 text-sm hover:text-white hover:bg-black transition-all duration-300 flex items-center gap-2">
             <ShoppingCartIcon className="w-4 h-4" />
             Add to Cart
           </button>
